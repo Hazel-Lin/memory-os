@@ -146,6 +146,98 @@ npm run dev -- export context --project <project-id> --target claude
 npm run dev -- export insights
 ```
 
+### Start the local API
+
+```bash
+npm run dev -- serve --port 3322
+```
+
+Example endpoints:
+
+```bash
+curl http://127.0.0.1:3322/profile
+curl http://127.0.0.1:3322/projects
+curl http://127.0.0.1:3322/projects/<project-id>/context?target=claude
+curl "http://127.0.0.1:3322/insights?project=<project-id>"
+```
+
+Example external workflow:
+
+```bash
+node scripts/fetch-project-context.mjs --project <project-id> --target claude
+```
+
+This script fetches `GET /projects/:id/context` and prints the prompt-ready export so another local tool or agent can consume it.
+
+### Generate agent-ready context packs
+
+```bash
+node scripts/prepare-claude-code-context.mjs --project <project-id>
+node scripts/prepare-codex-context.mjs --project <project-id>
+node scripts/prepare-terminal-agent-context.mjs --project <project-id>
+```
+
+These scripts fetch the local API and assemble a combined user + project context pack tailored for the target workflow.
+
+### Start the MCP-compatible server
+
+```bash
+npm run dev -- mcp
+```
+
+The MCP server runs over stdio and exposes Memory OS through:
+
+- resources
+- prompts
+- tools
+
+Current MCP tools:
+
+- `get_profile`
+- `get_project_context`
+- `get_insights`
+
+### Register Memory OS in Codex CLI
+
+```bash
+node scripts/install-codex-mcp.mjs
+codex mcp list
+codex mcp get memory-os --json
+```
+
+This registers Memory OS as a stdio MCP server inside Codex CLI using:
+
+```text
+node /Users/linhuizi/Desktop/memory-os/scripts/run-memory-os-mcp.mjs
+```
+
+Example validation:
+
+```bash
+codex exec -c 'user_instructions=""' "Use the memory-os MCP tool get_project_context with projectId demo_001. Respond with only the project name."
+```
+
+In the current environment, Codex successfully called `memory-os -> get_project_context` and returned `Memory OS`.
+
+### Start a Codex task with Memory OS context
+
+```bash
+node scripts/codex-memory.mjs --project demo_001 --print
+node scripts/codex-memory.mjs --project demo_001 --exec "Using the provided Memory OS brief, respond with only the project name."
+```
+
+Optional:
+
+```bash
+node scripts/codex-memory.mjs --base-url http://127.0.0.1:3322 --project demo_001 --exec "Plan the next implementation step." -- --skip-git-repo-check --json
+```
+
+This wrapper:
+
+- fetches profile and project context from the local API
+- assembles a single Codex briefing
+- forwards the briefing into `codex exec`
+
 ## CLI Commands
 
 The CLI entrypoint is `mem`.
@@ -160,6 +252,8 @@ Available commands:
 - `mem export context --project <id> --target <claude|generic>`
 - `mem export insights [--project <id>]`
 - `mem list`
+- `mem serve [--host <host>] [--port <port>]`
+- `mem mcp`
 
 For local development, run them through:
 
@@ -173,6 +267,10 @@ npm run dev -- <command>
 - When switching between projects, export project context instead of rewriting the same background again
 - When writing, planning, or reviewing, export relevant insights so AI can reuse your existing judgments
 - When using multiple AI tools, keep one local memory layer instead of rebuilding context in each product
+- When integrating terminal agents or scripts, query the local API instead of manually copying CLI output
+- When integrating MCP-capable clients, expose Memory OS as prompts, resources, and tools instead of building one-off adapters every time
+- When using Codex CLI, register Memory OS once as an MCP server and let Codex pull project context on demand
+- When starting a focused Codex task, use `scripts/codex-memory.mjs` to inject Memory OS context in one command
 
 ## Repository Structure
 

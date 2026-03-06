@@ -13,6 +13,8 @@ import {
   exportContextCommand,
   exportInsightsCommand,
 } from "./commands/export.js";
+import { mcpCommand } from "./commands/mcp.js";
+import { serveCommand } from "./commands/serve.js";
 import { readMemory } from "../core/storage.js";
 
 const program = new Command();
@@ -114,5 +116,21 @@ program
       console.log();
     });
   }));
+
+program
+  .command("serve")
+  .description("启动本地只读 API")
+  .option("--host <host>", "监听地址", "127.0.0.1")
+  .option("--port <port>", "监听端口", "3322")
+  .action(
+    runSafely((opts?: { host?: string; port?: string }) =>
+      serveCommand(Number(opts?.port ?? "3322"), opts?.host ?? "127.0.0.1")
+    )
+  );
+
+program
+  .command("mcp")
+  .description("启动 MCP-compatible stdio server")
+  .action(runSafely(mcpCommand));
 
 program.parse();
