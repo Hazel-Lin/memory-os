@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-slate-900 text-slate-100;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.2);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.35);
+  }
+
+  /* macOS title bar drag region */
+  .titlebar-drag {
+    -webkit-app-region: drag;
+  }
+
+  .titlebar-no-drag {
+    -webkit-app-region: no-drag;
+  }
+
+  /* Select option styling for dark mode */
+  select option {
+    background: #1e293b;
+    color: #e2e8f0;
+  }
+}
+
+/* ========== Component Styles (plain CSS, no @apply cross-ref) ========== */
+
+/* Input fields for dark mode */
+.input-dark {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: rgb(30 41 59);
+  /* slate-800 */
+  border: 1px solid rgb(51 65 85);
+  /* slate-700 */
+  border-radius: 0.5rem;
+  color: rgb(226 232 240);
+  /* slate-200 */
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-dark::placeholder {
+  color: rgb(100 116 139);
+  /* slate-500 */
+}
+
+.input-dark:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  /* blue-500/40 */
+  border-color: rgba(59, 130, 246, 0.5);
+  /* blue-500/50 */
+}
+
+/* Textarea for dark mode */
+.textarea-dark {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: rgb(30 41 59);
+  border: 1px solid rgb(51 65 85);
+  border-radius: 0.5rem;
+  color: rgb(226 232 240);
+  outline: none;
+  resize: none;
+  transition: all 0.2s;
+}
+
+.textarea-dark::placeholder {
+  color: rgb(100 116 139);
+}
+
+.textarea-dark:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Card style */
+.card-dark {
+  background: rgba(30, 41, 59, 0.5);
+  /* slate-800/50 */
+  border-radius: 0.75rem;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  /* slate-700/50 */
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+/* Primary button */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgb(59, 130, 246);
+  /* blue-500 */
+  color: white;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.btn-primary:hover {
+  background: rgb(37, 99, 235);
+  /* blue-600 */
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ghost button */
+.btn-ghost {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(51, 65, 85, 0.5);
+  /* slate-700/50 */
+  color: rgb(203, 213, 225);
+  /* slate-300 */
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  background: rgb(51, 65, 85);
+  /* slate-700 */
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* Tag / badge */
+.tag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}

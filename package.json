@@ -1,0 +1,46 @@
+{
+  "name": "memory-os",
+  "version": "0.1.0",
+  "description": "Local memory OS CLI - manage your personal context for AI interactions",
+  "type": "module",
+  "main": "dist-electron/main/index.js",
+  "bin": {
+    "mem": "./dist/src/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/src/index.js",
+    "dev:gui": "vite",
+    "build:gui": "tsc && vite build",
+    "preview:gui": "vite preview",
+    "test:core": "tsx --test tests/core/*.test.ts",
+    "test:smoke": "node tests/smoke-test.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.1.4",
+    "clsx": "^2.1.1",
+    "commander": "^13.1.0",
+    "electron": "^40.6.1",
+    "inquirer": "^12.3.2",
+    "lucide-react": "^0.576.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "vite": "^7.3.1",
+    "vite-plugin-electron": "^0.29.0",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
