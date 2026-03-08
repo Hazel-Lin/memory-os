@@ -2,6 +2,7 @@
   "name": "memory-os",
   "version": "0.1.0",
   "description": "Local memory OS CLI - manage your personal context for AI interactions",
+  "license": "MIT",
   "type": "module",
   "main": "dist-electron/main/index.js",
   "bin": {
